@@ -78,6 +78,21 @@ static int parse_args(int argc, char *argv[]) {
     {0          , 0                , NULL,  0 },
   };
   int o;
+  /*
+  int getopt_long(int argc, char * const argv[],
+                  const char *optstring,
+                  const struct option *longopts, int *longindex);
+  如果成功找到选项，则 getopt() 返回选项字符。如果已解析所有命令行选项，则 getopt_long返回-1
+  longopts 是指向 struct option 数组的第一个元素的指针
+
+  struct option {
+    const char *name;
+    int has_arg;
+    int *flag; --flag 指定如何返回长选项的结果。如果 flag 为 NULL，则 getopt_long() 返回 val
+    int val;
+  };
+  数组的最后一个元素必须用零填充。在上面可以看到最后的用0填充了
+  */
   while ( (o = getopt_long(argc, argv, "-bhl:d:p:", table, NULL)) != -1) {
     switch (o) {
       case 'b': sdb_set_batch_mode(); break;
