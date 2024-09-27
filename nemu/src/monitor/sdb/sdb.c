@@ -49,7 +49,7 @@ static int cmd_c(char *args) {
   return 0;
 }
 
-
+/*PA1的小练习，发现当没有执行c而是直接q退出时，会有error，由于没有执行指令，NEMU的state没有改变，依旧会是NEMU_Stop，因此想到在这里（当执行q时候，一定必须将NEMU的state设置为END*/
 static int cmd_q(char *args) {
   nemu_state.state = NEMU_END;
   return -1;
