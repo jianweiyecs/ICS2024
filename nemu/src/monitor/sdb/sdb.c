@@ -19,6 +19,7 @@
 #include <readline/history.h>
 #include "sdb.h"
 
+#include <memory/paddr.h>
 NEMUState nemu_state;
 
 static int is_batch_mode = false;
@@ -78,7 +79,19 @@ static int cmd_info(char* args){
 }
 
 static int cmd_p(char* args){
-  
+
+  return 0;
+}
+
+static int cmd_x(char* args){
+  uint32_t address;
+  int n;
+  sscanf(args,"%d %x",&n,&address);
+  int i;
+  for(i = 0;i < n;i++){
+    paddr_read(address,4);
+    address = address + 32;
+  }
   return 0;
 }
 static int cmd_help(char *args);
@@ -95,7 +108,8 @@ static struct {
   /* TODO: Add more commands */
   { "si", "Execute n instructions",cmd_si},
   { "info", "Print register values",cmd_info},
-  { "p", "Scan Memory",cmd_p},
+  { "p", "Expression evaluation",cmd_p},
+  { "x","Scan Memory",cmd_x},
 };
 
 #define NR_CMD ARRLEN(cmd_table)
