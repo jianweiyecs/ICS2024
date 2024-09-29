@@ -65,6 +65,17 @@ static int cmd_si(char* args){
   }
   return 0;
 }
+
+static int cmd_info(char* args){
+  char c;
+  sscanf(args,"%c",&c);
+  if(c == 'r' || c == 'R'){
+    isa_reg_display();
+  }else{
+    printf("Unknow command\n");
+  }
+  return 0;
+}
 static int cmd_help(char *args);
 
 static struct {
@@ -78,6 +89,7 @@ static struct {
 
   /* TODO: Add more commands */
   { "si", "Execute n instructions",cmd_si},
+  { "info", "Print register values",cmd_info}
 };
 
 #define NR_CMD ARRLEN(cmd_table)
