@@ -76,6 +76,11 @@ static int cmd_info(char* args){
   }
   return 0;
 }
+
+static int cmd_p(char* args){
+  
+  return 0;
+}
 static int cmd_help(char *args);
 
 static struct {
@@ -89,7 +94,8 @@ static struct {
 
   /* TODO: Add more commands */
   { "si", "Execute n instructions",cmd_si},
-  { "info", "Print register values",cmd_info}
+  { "info", "Print register values",cmd_info},
+  { "p", "Scan Memory",cmd_p},
 };
 
 #define NR_CMD ARRLEN(cmd_table)
