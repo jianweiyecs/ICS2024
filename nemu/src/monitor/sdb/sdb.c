@@ -89,7 +89,7 @@ static int cmd_x(char* args){
   sscanf(args,"%d %x",&n,&address);
   int i;
   for(i = 0;i < n;i++){
-    paddr_read(address,4);
+    printf("address: %x  memory: %x",address,paddr_read(address,4));
     address = address + 32;
   }
   return 0;
