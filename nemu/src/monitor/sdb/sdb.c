@@ -55,7 +55,16 @@ static int cmd_q(char *args) {
   return -1;
 }
 
-
+static int cmd_si(char* args){
+  int n;
+  sscanf(args,"%d",&n);
+  int insructions = n > 1 ? n : 1;
+  int i;
+  for(i = 1;i<=insructions;i++){
+    cpu_exec(1);
+  }
+  return 0;
+}
 static int cmd_help(char *args);
 
 static struct {
@@ -68,7 +77,7 @@ static struct {
   { "q", "Exit NEMU", cmd_q },
 
   /* TODO: Add more commands */
-
+  { "si", "Execute n instructions",cmd_si},
 };
 
 #define NR_CMD ARRLEN(cmd_table)
