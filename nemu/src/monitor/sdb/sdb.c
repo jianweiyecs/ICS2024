@@ -89,8 +89,8 @@ static int cmd_x(char* args){
   sscanf(args,"%d %x",&n,&address);
   int i;
   for(i = 0;i < n;i++){
-    printf("address: %x  memory: %x\n",address,paddr_read(address,4));
-    address = address + 32;
+    printf("address: %x  memory: %8x\n",address,paddr_read(address,4));
+    address = address + 4;
   }
   return 0;
 }
