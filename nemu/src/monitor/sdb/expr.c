@@ -41,11 +41,11 @@ static struct rule {
   {"==", TK_EQ},        // equal
 
   {"^\\-?\\d+$", TK_INT}, //Int
-  {"\\-",TK_NOTYPE}, //sub
-  {"\\*",TK_NOTYPE}, //mul
-  {"\\/",TK_NOTYPE}, //div
-  {"\\(",TK_NOTYPE},
-  {"\\)",TK_NOTYPE},
+  {"\\-",'-'}, //sub
+  {"\\*",'*'}, //mul
+  {"\\/",'/'}, //div
+  {"\\(",'('},
+  {"\\)",')'},
 };
 
 #define NR_REGEX ARRLEN(rules)
