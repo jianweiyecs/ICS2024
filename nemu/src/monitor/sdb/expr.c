@@ -25,6 +25,7 @@ enum {
 
   /* TODO: Add more token types */
   TK_NUM,
+  TK_Unkwn,
 };
 
 static struct rule {
@@ -113,7 +114,7 @@ static bool make_token(char *e) {
           case TK_NUM: {
             tokens[nr_token].type = TK_NUM;
             if(substr_len >= 32){
-              printf("buffer overflow in INT\n");
+              printf("buffer overflow in INT, buffer is 32bit, shoulde give 31bit, last bit is \\0\n");
               assert(0);
             }
             int i;
@@ -123,7 +124,7 @@ static bool make_token(char *e) {
             tokens[nr_token++].str[i] = '\0';
             break;
           }
-          default: TODO();
+          default: tokens[nr_token++].type = TK_Unkwn; break;//TODO()
         }
 
         break;
@@ -140,6 +141,15 @@ static bool make_token(char *e) {
 }
 
 
+// static int eval(int p,int q){
+//   if(q < p){
+//     return 0;
+//   }else if(p == q){
+//     return atoi(tokens[p].str);
+//   }else{
+
+//   }
+// }
 word_t expr(char *e, bool *success) {
   if (!make_token(e)) {
     *success = false;
@@ -147,7 +157,8 @@ word_t expr(char *e, bool *success) {
   }
 
   /* TODO: Insert codes to evaluate the expression. */
-  TODO();
+  //TODO();
+
 
   return 0;
 }
