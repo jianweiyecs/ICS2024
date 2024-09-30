@@ -24,7 +24,7 @@ enum {
   TK_NOTYPE = 256, TK_EQ,
 
   /* TODO: Add more token types */
-  TK_INT,
+  TK_NUM,
 };
 
 static struct rule {
@@ -40,7 +40,7 @@ static struct rule {
   {"\\+", '+'},         // plus
   {"==", TK_EQ},        // equal
 
-  {"^\\-?\\d+$", TK_INT}, //Int
+  {"^\\-?\\d+$", TK_NUM}, //Int
   {"\\-",'-'}, //sub
   {"\\*",'*'}, //mul
   {"\\/",'/'}, //div
@@ -110,8 +110,8 @@ static bool make_token(char *e) {
           case TK_EQ: tokens[nr_token++].type = TK_EQ;break;
           case '(': tokens[nr_token++].type = '(';break;
           case ')': tokens[nr_token++].type = ')';break;
-          case TK_INT: {
-            tokens[nr_token].type = TK_INT;
+          case TK_NUM: {
+            tokens[nr_token].type = TK_NUM;
             if(substr_len >= 32){
               printf("buffer overflow in INT\n");
               assert(0);
