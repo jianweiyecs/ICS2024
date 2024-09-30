@@ -110,9 +110,19 @@ static bool make_token(char *e) {
           case TK_EQ: tokens[nr_token++].type = TK_EQ;break;
           case '(': tokens[nr_token++].type = '(';break;
           case ')': tokens[nr_token++].type = ')';break;
-          // case TK_INT: {
-          //   tokens[nr_token].type = TK_INT;tokens[nr_token++].str = substr_start;break;
-          // }
+          case TK_INT: {
+            tokens[nr_token].type = TK_INT;
+            if(substr_len >= 32){
+              printf("buffer overflow in INT\n");
+              assert(0);
+            }
+            int i;
+            for(i = 0;i < substr_len;i++){
+              tokens[nr_token].str[i] = substr_start[i];
+            }
+            tokens[nr_token++].str[i] = '\0';
+            break;
+          }
           default: TODO();
         }
 
