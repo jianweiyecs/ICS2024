@@ -79,8 +79,15 @@ static int cmd_info(char* args){
 }
 
 static int cmd_p(char* args){
-
-  return 0;
+  char* e = NULL;
+  sscanf(args,"%s",e);
+  bool success = true;
+  int res = expr(e, &success);
+  if(success){
+    return res;
+  }else{
+    return 0;
+  }
 }
 
 static int cmd_x(char* args){

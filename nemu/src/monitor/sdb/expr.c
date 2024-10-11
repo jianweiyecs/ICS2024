@@ -121,7 +121,7 @@ static bool make_token(char *e) {
             for(i = 0;i < substr_len;i++){
               tokens[nr_token].str[i] = substr_start[i];
             }
-            tokens[nr_token++].str[i] = '\0';
+            tokens[nr_token++].str[substr_len] = '\0';
             break;
           }
           default: tokens[nr_token++].type = TK_Unkwn; break;//TODO()
@@ -141,24 +141,122 @@ static bool make_token(char *e) {
 }
 
 
-// static int eval(int p,int q){
-//   if(q < p){
-//     return 0;
-//   }else if(p == q){
-//     return atoi(tokens[p].str);
-//   }else{
+static int SUCCESS = 1;
 
-//   }
-// }
+
+static bool check_parentheses(int l, int r){
+  if (tokens[l].type == '(' && tokens[r].type == ')'){
+    return true;
+  }
+  return false;
+}
+
+static bool check_in_parentheses(int index){
+  int i;
+  for(i = index; i>=0; i--){
+    if(tokens[i].type == '('){
+      return true;
+    }
+  }
+  for(i = index;i < nr_token;i++){
+    if(tokens[i].type == ')'){
+      return true;
+    }
+  }
+  return false;
+}
+static int find_op(Token* p){
+  int op_type = -1;
+  int op = 0;
+  int i;
+  for(i = 0;i < nr_token; i++){
+    switch (tokens[i].type)
+    {
+    case '+':{
+      if (op_type <= 1 && !check_in_parentheses(op)){
+        op_type = 1;
+        op = i;
+      }
+      break;
+    }
+    case '-':{
+      if (op_type <= 1 && !check_in_parentheses(op)){
+        op_type = 1;
+        op = i;
+      }
+      break;
+    }
+    case '*':{
+      if (op_type <= 0 && !check_in_parentheses(op)){
+        op_type = 0;
+        op = i;
+      }
+      break;
+    }
+    case '/':{
+      if (op_type <= 0 && !check_in_parentheses(op)){
+        op_type = 0;
+        op = i;
+      }
+      break;
+    }
+    default:
+      break;
+    }
+  }
+  return op;
+}
+static int eval(int l,int r){
+  if(l > r){
+    printf("The expression is illegal, please re-enter it\n");
+    SUCCESS = 0;
+    return 0;
+  }else if(l == r){
+    return atoi(tokens[l].str);
+  }else if(check_parentheses(l, r)){
+    eval(l + 1, r - 1);
+  }else{
+    int op = find_op(tokens);
+    int val1 = eval(l, op - 1);
+    int val2 = eval(op + 1, r);
+    switch (tokens[op].type)
+    {
+    case '+':{
+      return val1 + val2;
+    }
+    case '-':{
+      return val1 - val2;
+    }
+    case '*':{
+      return val1*val2;
+    }
+    case '/':{
+      if(val2 == 0){
+        SUCCESS = 0;
+        printf("The expression is illegal, please re-enter it, find //0\n");
+        return 0;
+      }else{
+        return val1/val2;
+      }
+    }
+    default:
+      break;
+    }
+  }
+  return 0;
+}
+
 word_t expr(char *e, bool *success) {
   if (!make_token(e)) {
     *success = false;
     return 0;
   }
-
   /* TODO: Insert codes to evaluate the expression. */
   //TODO();
-
-
-  return 0;
+  int res = eval(0,nr_token);
+  if(SUCCESS){
+    return res;
+  }else{
+    return 0;
+  }
 }
