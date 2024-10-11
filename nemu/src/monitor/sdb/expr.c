@@ -125,7 +125,8 @@ static bool make_token(char *e) {
             tokens[nr_token++].str[substr_len] = '\0';
             break;
           }
-          default: tokens[nr_token++].type = TK_Unkwn; break;//TODO()
+          // default: tokens[nr_token++].type = TK_Unkwn; break;//TODO()
+          default: break;
         }
 
         break;
