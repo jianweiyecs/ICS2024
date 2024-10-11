@@ -253,6 +253,7 @@ word_t expr(char *e, bool *success) {
   }
   /* TODO: Insert codes to evaluate the expression. */
   //TODO();
+  printf("pass make_token\n");
   int res = eval(0,nr_token);
   if(SUCCESS){
     return res;
