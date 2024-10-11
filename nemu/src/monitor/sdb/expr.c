@@ -79,7 +79,7 @@ static Token tokens[32] __attribute__((used)) = {};
 static int nr_token __attribute__((used))  = 0;
 
 static bool make_token(char *e) {
-  printf("Inter make_token\n");
+  // printf("Inter make_token\n");
   int position = 0;
   int i;
   regmatch_t pmatch;
@@ -133,10 +133,10 @@ static bool make_token(char *e) {
       }
     }
 
-    if (i == NR_REGEX) {
-      printf("no match at position %d\n%s\n%*.s^\n", position, e, position, "");
-      return false;
-    }
+    // if (i == NR_REGEX) {
+    //   printf("no match at position %d\n%s\n%*.s^\n", position, e, position, "");
+    //   return false;
+    // }
   }
 
   return true;
