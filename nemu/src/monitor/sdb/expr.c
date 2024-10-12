@@ -256,7 +256,6 @@ static int eval(int l,int r){
     int val1 = eval(l, op - 1);
     int val2 = eval(op + 1, r);
     printf("val1(%d) op(%d) val2(%d) op is %d\n",val1,tokens[op].type,val2,op);
-    assert(tokens[op].type == TK_SUB);
     switch (tokens[op].type)
     {
     case TK_ADD:{
@@ -281,7 +280,7 @@ static int eval(int l,int r){
       break;
     }
   }
-  printf("error: don't use +-*/\n");
+  printf("error: don't use +-*/,info(%d ~ %d)\n",l,r);
   return 0;
 }
 
