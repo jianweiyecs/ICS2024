@@ -120,18 +120,19 @@ static bool make_token(char *e) {
               printf("buffer overflow in INT, buffer is 32bit, shoulde give 31bit, last bit is \\0\n");
               assert(0);
             }
-            int i;
-            for(i = 0;i < substr_len;i++){
-              tokens[nr_token].str[i] = substr_start[i];
-            }
-            tokens[nr_token++].str[substr_len] = '\0';
+            // int i;
+            // for(i = 0;i < substr_len;i++){
+            //   tokens[nr_token].str[i] = substr_start[i];
+            // }
+            strncpy(tokens[nr_token++].str, substr_start, substr_len);
+            // tokens[nr_token++].str[substr_len] = '\0';
             break;
           }
           // default: tokens[nr_token++].type = TK_Unkwn; break;//TODO()
           default: break;
         }
 
-        break;
+        // break;
       }
     }
 
@@ -252,7 +253,7 @@ static int eval(int l,int r){
 
 word_t expr(char *e, bool *success) {
 
-  //do
+  //do,函数中会调用regcomp，regcomp用于将正则表达式编译为适合后续 regexec() 搜索的形式。
   init_regex();
   //done
   if (!make_token(e)) {
