@@ -195,28 +195,28 @@ static int find_op(Token* p){
   for(i = 0;i < nr_token; i++){
     switch (tokens[i].type)
     {
-    case '+':{
+    case TK_ADD:{
       if (op_type <= 1 && !check_in_parentheses(op)){
         op_type = 1;
         op = i;
       }
       break;
     }
-    case '-':{
+    case TK_SUB:{
       if (op_type <= 1 && !check_in_parentheses(op)){
         op_type = 1;
         op = i;
       }
       break;
     }
-    case '*':{
+    case TK_MUL:{
       if (op_type <= 0 && !check_in_parentheses(op)){
         op_type = 0;
         op = i;
       }
       break;
     }
-    case '/':{
+    case TK_DIV:{
       if (op_type <= 0 && !check_in_parentheses(op)){
         op_type = 0;
         op = i;
@@ -245,16 +245,16 @@ static int eval(int l,int r){
     int val2 = eval(op + 1, r);
     switch (tokens[op].type)
     {
-    case '+':{
+    case TK_ADD:{
       return val1 + val2;
     }
-    case '-':{
+    case TK_SUB:{
       return val1 - val2;
     }
-    case '*':{
+    case TK_MUL:{
       return val1*val2;
     }
-    case '/':{
+    case TK_DIV:{
       if(val2 == 0){
         SUCCESS = 0;
         printf("The expression is illegal, please re-enter it, find //0\n");
