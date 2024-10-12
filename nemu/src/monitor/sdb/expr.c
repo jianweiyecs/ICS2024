@@ -255,6 +255,8 @@ static int eval(int l,int r){
     printf("op = %d\n", op);
     int val1 = eval(l, op - 1);
     int val2 = eval(op + 1, r);
+    printf("val1 = %d\n",val1);
+    printf("val2 = %d\n",val2);
     switch (tokens[op].type)
     {
     case TK_ADD:{
@@ -298,6 +300,7 @@ word_t expr(char *e, bool *success) {
     printf("%s = %d\n", e, res);
     return res;
   }else{
+    printf("can't calculate\n");
     return 0;
   }
 }
