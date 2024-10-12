@@ -176,12 +176,12 @@ static bool check_parentheses(int l, int r){
 
 static bool check_in_parentheses(int index){
   int i;
-  for(i = index; i>=0; i--){
+  for(i = index - 1; i>=0; i--){
     if(tokens[i].type == '('){
       return true;
     }
   }
-  for(i = index;i < nr_token;i++){
+  for(i = index + 1;i < nr_token;i++){
     if(tokens[i].type == ')'){
       return true;
     }
