@@ -42,7 +42,6 @@ static struct rule {
    * Pay attention to the precedence level of different rules.
    */
 
-  {"[0-9]*", TK_NUM},
   {" +", TK_NOTYPE},    // spaces
   {"\\+", TK_ADD},         // plus
 
@@ -52,7 +51,7 @@ static struct rule {
   {"\\/", TK_DIV}, //div
   {"\\(", TK_ZUO},
   {"\\)", TK_YOU},
-  // {"[0-9]*", TK_NUM},
+  {"[0-9]*", TK_NUM},
 };
 
 #define NR_REGEX ARRLEN(rules)
