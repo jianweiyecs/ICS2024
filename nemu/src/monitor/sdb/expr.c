@@ -106,6 +106,7 @@ static bool make_token(char *e) {
          * of tokens, some extra actions should be performed.
          */
 
+        printf("pass regexec\n");
         switch (rules[i].token_type) {
           case '+': tokens[nr_token++].type = '+';break;
           case '-': tokens[nr_token++].type = '-';break;
@@ -132,7 +133,7 @@ static bool make_token(char *e) {
           default: break;
         }
 
-        // break;
+        break;
       }
     }
 
