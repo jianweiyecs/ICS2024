@@ -176,17 +176,28 @@ static bool check_parentheses(int l, int r){
 
 static bool check_in_parentheses(int index, int l, int r){
   int i;
+  int zuo = 0;
+  int you = 0;
   for(i = index - 1; i>=l; i--){
     if(tokens[i].type == TK_ZUO){
-      return true;
+      zuo++;
+    }
+    if(tokens[i].type == TK_YOU){
+      zuo--;
     }
   }
   for(i = index + 1;i <= r;i++){
     if(tokens[i].type == TK_YOU){
-      return true;
+      you++;
+    }
+    if(tokens[i].type == TK_ZUO){
+      you--;
     }
   }
-  return false;
+  if(zuo == you && zuo == 0){
+    return false;
+  }
+  return true;
 }
 static int find_op(int l, int r){
   int op_type = -1;
