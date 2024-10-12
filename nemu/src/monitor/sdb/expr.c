@@ -232,7 +232,7 @@ static int find_op(Token* p){
 
 static int eval(int l,int r){
   if(l > r){
-    printf("The expression is illegal, please re-enter it\n");
+    // printf("The expression is illegal, please re-enter it\n");
     SUCCESS = 0;
     return 0;
   }else if(l == r){
