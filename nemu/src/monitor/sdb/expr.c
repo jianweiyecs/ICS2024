@@ -280,6 +280,7 @@ static int eval(int l,int r){
       break;
     }
   }
+  printf("error: don't use +-*/\n");
   return 0;
 }
 
