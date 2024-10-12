@@ -241,7 +241,6 @@ static int eval(int l,int r){
     eval(l + 1, r - 1);
   }else{
     int op = find_op(l,r);
-    printf("op is %d\n", op);
     int val1 = eval(l, op - 1);
     int val2 = eval(op + 1, r);
     switch (tokens[op].type)
