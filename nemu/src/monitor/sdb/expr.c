@@ -196,28 +196,28 @@ static int find_op(Token* p){
     switch (tokens[i].type)
     {
     case TK_ADD:{
-      if (op_type <= 1 && !check_in_parentheses(op)){
+      if (op_type <= 1 && !check_in_parentheses(i)){
         op_type = 1;
         op = i;
       }
       break;
     }
     case TK_SUB:{
-      if (op_type <= 1 && !check_in_parentheses(op)){
+      if (op_type <= 1 && !check_in_parentheses(i)){
         op_type = 1;
         op = i;
       }
       break;
     }
     case TK_MUL:{
-      if (op_type <= 0 && !check_in_parentheses(op)){
+      if (op_type <= 0 && !check_in_parentheses(i)){
         op_type = 0;
         op = i;
       }
       break;
     }
     case TK_DIV:{
-      if (op_type <= 0 && !check_in_parentheses(op)){
+      if (op_type <= 0 && !check_in_parentheses(i)){
         op_type = 0;
         op = i;
       }
