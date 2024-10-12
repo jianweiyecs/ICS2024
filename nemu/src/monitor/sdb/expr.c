@@ -37,11 +37,13 @@ static struct rule {
    * Pay attention to the precedence level of different rules.
    */
 
+  {"\\d+", TK_NUM}, //myInt
+
   {" +", TK_NOTYPE},    // spaces
   {"\\+", '+'},         // plus
   {"==", TK_EQ},        // equal
 
-  {"\\b\\d+\\b", TK_NUM}, //Int
+  
   {"\\-",'-'}, //sub
   {"\\*",'*'}, //mul
   {"\\/",'/'}, //div
