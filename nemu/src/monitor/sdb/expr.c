@@ -124,6 +124,7 @@ static bool make_token(char *e) {
             strncpy(tokens[nr_token++].str, substr_start, substr_len);
             break;
           }
+          case TK_NOTYPE:break;
           // default: tokens[nr_token++].type = TK_Unkwn; break;//TODO()
           default: break;
         }
