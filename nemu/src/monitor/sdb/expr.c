@@ -279,7 +279,7 @@ word_t expr(char *e, bool *success) {
   //TODO();
   printf("pass make_token\n");
   int i;
-  for(i = 0;i < NR_REGEX; i++){
+  for(i = 0;i < nr_token; i++){
     printf("Type is %d\n",tokens[i].type);
   }
   SUCCESS = 1;
