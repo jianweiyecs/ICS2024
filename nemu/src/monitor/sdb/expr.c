@@ -252,10 +252,10 @@ static int eval(int l,int r){
     return eval(l + 1, r - 1);
   }else{
     int op = find_op(l,r);
-    printf("op = %d\n", op);
+    // printf("op = %d\n", op);
     int val1 = eval(l, op - 1);
     int val2 = eval(op + 1, r);
-    printf("val1(%d) op(%d) val2(%d) op is %d\n",val1,tokens[op].type,val2,op);
+    // printf("val1(%d) op(%d) val2(%d) op is %d\n",val1,tokens[op].type,val2,op);
     switch (tokens[op].type)
     {
     case TK_ADD:{
@@ -280,7 +280,7 @@ static int eval(int l,int r){
       break;
     }
   }
-  printf("error: don't use +-*/,info(%d ~ %d)\n",l,r);
+  // printf("error: don't use +-*/,info(%d ~ %d)\n",l,r);
   return 0;
 }
 
