@@ -168,7 +168,7 @@ static int SUCCESS = 1;
 
 
 static bool check_parentheses(int l, int r){
-  if (tokens[l].type == '(' && tokens[r].type == ')'){
+  if (tokens[l].type == TK_ZUO && tokens[r].type == TK_YOU){
     return true;
   }
   return false;
@@ -177,12 +177,12 @@ static bool check_parentheses(int l, int r){
 static bool check_in_parentheses(int index){
   int i;
   for(i = index - 1; i>=0; i--){
-    if(tokens[i].type == '('){
+    if(tokens[i].type == TK_ZUO){
       return true;
     }
   }
   for(i = index + 1;i < nr_token;i++){
-    if(tokens[i].type == ')'){
+    if(tokens[i].type == TK_YOU){
       return true;
     }
   }
