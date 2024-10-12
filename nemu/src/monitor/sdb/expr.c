@@ -111,7 +111,7 @@ static bool make_token(char *e) {
           case '-': tokens[nr_token++].type = '-';break;
           case '*': tokens[nr_token++].type = '*';break;
           case '/': tokens[nr_token++].type = '/';break;
-          case TK_EQ: tokens[nr_token++].type = TK_EQ;break;
+          // case TK_EQ: tokens[nr_token++].type = TK_EQ;break;
           case '(': tokens[nr_token++].type = '(';break;
           case ')': tokens[nr_token++].type = ')';break;
           case TK_NUM: {
@@ -258,6 +258,7 @@ word_t expr(char *e, bool *success) {
   /* TODO: Insert codes to evaluate the expression. */
   //TODO();
   printf("pass make_token\n");
+  SUCCESS = 1;
   int res = eval(0,nr_token);
   if(SUCCESS){
     return res;
