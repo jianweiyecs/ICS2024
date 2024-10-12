@@ -46,12 +46,13 @@ static struct rule {
   {" +", TK_NOTYPE},    // spaces
   {"\\+", TK_ADD},         // plus
 
-  {"[0-9]*", TK_NUM},
+  
   {"\\-", TK_SUB}, //sub
   {"\\*", TK_MUL}, //mul
   {"\\/", TK_DIV}, //div
   {"\\(", TK_ZUO},
   {"\\)", TK_YOU},
+  {"[0-9]*", TK_NUM},
 };
 
 #define NR_REGEX ARRLEN(rules)
