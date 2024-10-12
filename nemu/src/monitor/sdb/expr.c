@@ -25,7 +25,12 @@ enum {
 
   /* TODO: Add more token types */
   TK_NUM,
-  TK_Unkwn,
+  TK_ADD,
+  TK_SUB,
+  TK_MUL,
+  TK_DIV,
+  TK_ZUO,
+  TK_YOU,
 };
 
 static struct rule {
@@ -39,14 +44,14 @@ static struct rule {
 
 
   {" +", TK_NOTYPE},    // spaces
-  {"\\+", '+'},         // plus
+  {"\\+", TK_ADD},         // plus
 
   {"[0-9]*", TK_NUM},
-  {"\\-", '-'}, //sub
-  {"\\*", '*'}, //mul
-  {"\\/", '/'}, //div
-  {"\\(", '('},
-  {"\\)", ')'},
+  {"\\-", TK_SUB}, //sub
+  {"\\*", TK_MUL}, //mul
+  {"\\/", TK_DIV}, //div
+  {"\\(", TK_ZUO},
+  {"\\)", TK_YOU},
 };
 
 #define NR_REGEX ARRLEN(rules)
@@ -105,28 +110,28 @@ static bool make_token(char *e) {
          */
 
         switch (rules[i].token_type) {
-          case '+': 
-            tokens[nr_token].type = '+';
+          case TK_ADD: 
+            tokens[nr_token].type = TK_ADD;
             nr_token++;
             break;
-          case '-': 
-            tokens[nr_token].type = '-';
+          case TK_SUB: 
+            tokens[nr_token].type = TK_SUB;
             nr_token++;
             break;
-          case '*': 
-            tokens[nr_token].type = '*';
+          case TK_MUL: 
+            tokens[nr_token].type = TK_MUL;
             nr_token++;
             break;
-          case '/': 
-            tokens[nr_token].type = '/';
+          case TK_DIV: 
+            tokens[nr_token].type = TK_DIV;
             nr_token++;
             break;
-          case '(': 
-            tokens[nr_token].type = '(';
+          case TK_ZUO: 
+            tokens[nr_token].type = TK_ZUO;
             nr_token++;
             break;
-          case ')': 
-            tokens[nr_token].type = ')';
+          case TK_YOU: 
+            tokens[nr_token].type = TK_YOU;
             nr_token++;
             break;
           case TK_NUM: {
@@ -141,6 +146,7 @@ static bool make_token(char *e) {
           }
           case TK_NOTYPE:break;
           default: 
+            printf("No this rule\n");
             break;
         }
 
