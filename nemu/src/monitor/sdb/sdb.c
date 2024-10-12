@@ -80,8 +80,8 @@ static int cmd_info(char* args){
 
 static int cmd_p(char* args){
   char e[100];
-  sscanf(args,"%s",e);
-  // strcpy(e,args);
+  // sscanf(args,"%s",e);
+  strcpy(e,args);
   printf("%s\n", e);
   bool success = true;
   int res = expr(e, &success);
