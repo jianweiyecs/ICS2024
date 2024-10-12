@@ -281,6 +281,7 @@ word_t expr(char *e, bool *success) {
 
 
   SUCCESS = 1;
+  printf("nr_token is %d\n",nr_token);
   int res = eval(0,nr_token - 1);
   if(SUCCESS){
     printf("%s = %d\n", e, res);
