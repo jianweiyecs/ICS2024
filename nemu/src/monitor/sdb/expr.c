@@ -38,7 +38,7 @@ static struct rule {
    */
 
 
-  // {" +", TK_NOTYPE},    // spaces
+  {" +", TK_NOTYPE},    // spaces
   {"\\+", '+'},         // plus
 
   {"[0-9]*", TK_NUM},
