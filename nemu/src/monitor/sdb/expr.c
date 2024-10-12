@@ -37,7 +37,7 @@ static struct rule {
    * Pay attention to the precedence level of different rules.
    */
 
-  {"\\b\\d+\\b", TK_NUM}, //myInt
+  {"\\d+", TK_NUM}, //myInt
 
   {" +", TK_NOTYPE},    // spaces
   {"\\+", '+'},         // plus
