@@ -44,11 +44,11 @@ static struct rule {
   // {"==", TK_EQ},        // equal
 
   
-  {"\\-",'-'}, //sub
-  {"\\*",'*'}, //mul
-  {"\\/",'/'}, //div
-  {"\\(",'('},
-  {"\\)",')'},
+  {"\\-", '-'}, //sub
+  {"\\*", '*'}, //mul
+  {"\\/", '/'}, //div
+  {"\\(", '('},
+  {"\\)", ')'},
 };
 
 #define NR_REGEX ARRLEN(rules)
@@ -121,12 +121,7 @@ static bool make_token(char *e) {
               printf("buffer overflow in INT, buffer is 32bit, shoulde give 31bit, last bit is \\0\n");
               assert(0);
             }
-            // int i;
-            // for(i = 0;i < substr_len;i++){
-            //   tokens[nr_token].str[i] = substr_start[i];
-            // }
             strncpy(tokens[nr_token++].str, substr_start, substr_len);
-            // tokens[nr_token++].str[substr_len] = '\0';
             break;
           }
           // default: tokens[nr_token++].type = TK_Unkwn; break;//TODO()
@@ -212,6 +207,7 @@ static int find_op(Token* p){
   }
   return op;
 }
+
 static int eval(int l,int r){
   if(l > r){
     printf("The expression is illegal, please re-enter it\n");
@@ -253,10 +249,6 @@ static int eval(int l,int r){
 }
 
 word_t expr(char *e, bool *success) {
-
-  //do,函数中会调用regcomp，regcomp用于将正则表达式编译为适合后续 regexec() 搜索的形式。
-  init_regex();
-  //done
   if (!make_token(e)) {
     *success = false;
     return 0;
