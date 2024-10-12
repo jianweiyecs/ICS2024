@@ -174,14 +174,14 @@ static bool check_parentheses(int l, int r){
   return false;
 }
 
-static bool check_in_parentheses(int index){
+static bool check_in_parentheses(int index, int l, int r){
   int i;
-  for(i = index - 1; i>=0; i--){
+  for(i = index - 1; i>=l; i--){
     if(tokens[i].type == TK_ZUO){
       return true;
     }
   }
-  for(i = index + 1;i < nr_token;i++){
+  for(i = index + 1;i <= r;i++){
     if(tokens[i].type == TK_YOU){
       return true;
     }
@@ -196,28 +196,28 @@ static int find_op(int l, int r){
     switch (tokens[i].type)
     {
     case TK_ADD:{
-      if (op_type <= 1 && !check_in_parentheses(i)){
+      if (op_type <= 1 && !check_in_parentheses(i,l,r)){
         op_type = 1;
         op = i;
       }
       break;
     }
     case TK_SUB:{
-      if (op_type <= 1 && !check_in_parentheses(i)){
+      if (op_type <= 1 && !check_in_parentheses(i,l,r)){
         op_type = 1;
         op = i;
       }
       break;
     }
     case TK_MUL:{
-      if (op_type <= 0 && !check_in_parentheses(i)){
+      if (op_type <= 0 && !check_in_parentheses(i,l,r)){
         op_type = 0;
         op = i;
       }
       break;
     }
     case TK_DIV:{
-      if (op_type <= 0 && !check_in_parentheses(i)){
+      if (op_type <= 0 && !check_in_parentheses(i,l,r)){
         op_type = 0;
         op = i;
       }
@@ -281,7 +281,7 @@ word_t expr(char *e, bool *success) {
 
 
   SUCCESS = 1;
-  printf("nr_token is %d\n",nr_token);
+  // printf("nr_token is %d\n",nr_token);
   int res = eval(0,nr_token - 1);
   if(SUCCESS){
     printf("%s = %d\n", e, res);
