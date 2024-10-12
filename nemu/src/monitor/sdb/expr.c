@@ -255,8 +255,7 @@ static int eval(int l,int r){
     printf("op = %d\n", op);
     int val1 = eval(l, op - 1);
     int val2 = eval(op + 1, r);
-    printf("val1 = %d\n",val1);
-    printf("val2 = %d\n",val2);
+    printf("val1(%d) op(%d) val2(%d)\n",val1,tokens[op].type,val2);
     switch (tokens[op].type)
     {
     case TK_ADD:{
