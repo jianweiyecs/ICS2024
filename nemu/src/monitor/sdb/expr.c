@@ -105,25 +105,43 @@ static bool make_token(char *e) {
          */
 
         switch (rules[i].token_type) {
-          case '+': tokens[nr_token++].type = '+';break;
-          case '-': tokens[nr_token++].type = '-';break;
-          case '*': tokens[nr_token++].type = '*';break;
-          case '/': tokens[nr_token++].type = '/';break;
-          // case TK_EQ: tokens[nr_token++].type = TK_EQ;break;
-          case '(': tokens[nr_token++].type = '(';break;
-          case ')': tokens[nr_token++].type = ')';break;
+          case '+': 
+            tokens[nr_token].type = '+';
+            nr_token++;
+            break;
+          case '-': 
+            tokens[nr_token].type = '-';
+            nr_token++;
+            break;
+          case '*': 
+            tokens[nr_token].type = '*';
+            nr_token++;
+            break;
+          case '/': 
+            tokens[nr_token].type = '/';
+            nr_token++;
+            break;
+          case '(': 
+            tokens[nr_token].type = '(';
+            nr_token++;
+            break;
+          case ')': 
+            tokens[nr_token].type = ')';
+            nr_token++;
+            break;
           case TK_NUM: {
             tokens[nr_token].type = TK_NUM;
             if(substr_len >= 32){
               printf("buffer overflow in INT, buffer is 32bit, shoulde give 31bit, last bit is \\0\n");
               assert(0);
             }
-            strncpy(tokens[nr_token++].str, substr_start, substr_len);
+            strncpy(tokens[nr_token].str, substr_start, substr_len);
+            nr_token++;
             break;
           }
           case TK_NOTYPE:break;
-          // default: tokens[nr_token++].type = TK_Unkwn; break;//TODO()
-          default: break;
+          default: 
+            break;
         }
 
         break;
