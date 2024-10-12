@@ -249,7 +249,7 @@ static int eval(int l,int r){
   }else if(l == r){
     return atoi(tokens[l].str);
   }else if(check_parentheses(l, r)){
-    eval(l + 1, r - 1);
+    return eval(l + 1, r - 1);
   }else{
     int op = find_op(l,r);
     printf("op = %d\n", op);
