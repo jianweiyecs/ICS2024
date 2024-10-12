@@ -70,6 +70,11 @@ void init_regex() {
       panic("regex compilation failed: %s\n%s", error_msg, rules[i].regex);
     }
   }
+  
+  //do
+  for(i = 0; i < NR_REGEX; i++){
+    printf("%s\n",rules[i].regex);
+  }
 }
 
 typedef struct token {
