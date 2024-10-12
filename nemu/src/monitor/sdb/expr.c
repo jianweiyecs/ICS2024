@@ -41,7 +41,7 @@ static struct rule {
   {"\\+", '+'},         // plus
   {"==", TK_EQ},        // equal
 
-  {"\\d", TK_NUM}, //Int
+  {"\\b\\d+\\b", TK_NUM}, //Int
   {"\\-",'-'}, //sub
   {"\\*",'*'}, //mul
   {"\\/",'/'}, //div
