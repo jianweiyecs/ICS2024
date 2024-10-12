@@ -41,7 +41,7 @@ static struct rule {
   {"\\+", '+'},         // plus
   {"==", TK_EQ},        // equal
 
-  {"\\d+", TK_NUM}, //Int
+  {"\\d", TK_NUM}, //Int
   {"\\-",'-'}, //sub
   {"\\*",'*'}, //mul
   {"\\/",'/'}, //div
@@ -104,7 +104,7 @@ static bool make_token(char *e) {
          * of tokens, some extra actions should be performed.
          */
 
-        switch (rules[position].token_type) {
+        switch (rules[i].token_type) {
           case '+': tokens[nr_token++].type = '+';break;
           case '-': tokens[nr_token++].type = '-';break;
           case '*': tokens[nr_token++].type = '*';break;
