@@ -255,7 +255,7 @@ static int eval(int l,int r){
     printf("op = %d\n", op);
     int val1 = eval(l, op - 1);
     int val2 = eval(op + 1, r);
-    printf("val1(%d) op(%d) val2(%d)\n",val1,tokens[op].type,val2);
+    printf("val1(%d) op(%d) val2(%d) op is %d\n",val1,tokens[op].type,val2,op);
     switch (tokens[op].type)
     {
     case TK_ADD:{
@@ -265,7 +265,7 @@ static int eval(int l,int r){
       return val1 - val2;
     }
     case TK_MUL:{
-      return val1*val2;
+      return val1 * val2;
     }
     case TK_DIV:{
       if(val2 == 0){
@@ -273,7 +273,7 @@ static int eval(int l,int r){
         printf("The expression is illegal, please re-enter it, find //0\n");
         return 0;
       }else{
-        return val1/val2;
+        return val1 / val2;
       }
     }
     default:
