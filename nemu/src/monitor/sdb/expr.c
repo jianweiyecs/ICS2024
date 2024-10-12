@@ -256,6 +256,10 @@ static int eval(int l,int r){
 }
 
 word_t expr(char *e, bool *success) {
+
+  //do
+  init_regex();
+  //done
   if (!make_token(e)) {
     *success = false;
     return 0;
