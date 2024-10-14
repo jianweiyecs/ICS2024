@@ -20,6 +20,13 @@
  */
 #include <regex.h>
 
+#define RESET   "\033[0m"   // 重置颜色
+#define RED     "\033[31m"  // 红色
+#define GREEN   "\033[32m"  // 绿色
+#define YELLOW  "\033[33m"  // 黄色
+#define BLUE    "\033[34m"  // 蓝色
+#define PURPLE  "\033[35m]"
+
 enum {
   TK_NOTYPE = 256, TK_EQ,
 
@@ -283,6 +290,28 @@ static int eval(int l,int r){
   return 0;
 }
 
+void printToken(Token token) {
+    switch (token.type) {
+        case TK_NUM:
+            printf(GREEN "%s" RESET, token.str); // 绿色
+            break;
+        case TK_ADD:
+            printf(PURPLE "+" RESET); 
+            break;
+        case TK_SUB:
+            printf(GREEN "-" RESET); 
+            break;
+        case TK_MUL:
+            printf(BLUE "*" RESET); 
+            break;
+        case TK_DIV:
+            printf(YELLOW "/" RESET); 
+            break;
+        case TK_YOU:
+            printf(YELLOW ")" RESET);
+    }
+}
+
 word_t expr(char *e, bool *success) {
   if (!make_token(e)) {
     *success = false;
@@ -296,7 +325,11 @@ word_t expr(char *e, bool *success) {
   // printf("nr_token is %d\n",nr_token);
   int res = eval(0,nr_token - 1);
   if(SUCCESS){
-    printf("%s = %d\n", e, res);
+    int i;
+    for(i = 0;i < nr_token;i++){
+      printToken(tokens[i]);
+    }
+    printf("\n = %d\n", res);
     return res;
   }else{
     printf("can't calculate\n");
