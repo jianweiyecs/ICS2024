@@ -295,25 +295,25 @@ static int eval(int l,int r){
 void printToken(Token token) {
     switch (token.type) {
         case TK_NUM:
-            printf(GREEN "%s" RESET, token.str); // 绿色
+            printf(GREEN "%s " RESET, token.str); // 绿色
             break;
         case TK_ADD:
-            printf(PURPLE "+" RESET); 
+            printf(PURPLE "+ " RESET); 
             break;
         case TK_SUB:
-            printf(QINGSE "-" RESET); 
+            printf(QINGSE "- " RESET); 
             break;
         case TK_MUL:
-            printf(BLUE "*" RESET); 
+            printf(BLUE "* " RESET); 
             break;
         case TK_DIV:
-            printf(YELLOW "/" RESET); 
+            printf(YELLOW "/ " RESET); 
             break;
         case TK_YOU:
-            printf(LIGHT_MAG ")" RESET);
+            printf(LIGHT_MAG ") " RESET);
             break;
         case TK_ZUO:
-            printf(LIGHT_MAG "(" RESET);
+            printf(LIGHT_MAG "( " RESET);
             break;
     }
 }
