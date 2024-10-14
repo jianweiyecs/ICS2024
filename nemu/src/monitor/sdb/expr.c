@@ -41,7 +41,7 @@ static struct rule {
   /* TODO: Add more rules.
    * Pay attention to the precedence level of different rules.
    */
-  {"[0-9]+", TK_NUM},
+  {"-?[0-9]+", TK_NUM},
   {" +", TK_NOTYPE},    // spaces
   {"\\+", TK_ADD},         // plus
 
@@ -139,6 +139,7 @@ static bool make_token(char *e) {
               printf("buffer overflow in INT, buffer is 32bit, shoulde give 31bit, last bit is \\0\n");
               assert(0);
             }
+            printf("%s\n", substr_start);
             strncpy(tokens[nr_token].str, substr_start, substr_len);
             nr_token++;
             break;
