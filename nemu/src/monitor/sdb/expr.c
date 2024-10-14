@@ -311,8 +311,10 @@ void printToken(Token token) {
             break;
         case TK_YOU:
             printf(LIGHT_MAG ")" RESET);
+            break;
         case TK_ZUO:
             printf(LIGHT_MAG "(" RESET);
+            break;
     }
 }
 
