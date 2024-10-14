@@ -25,7 +25,7 @@
 #define GREEN   "\033[32m"  // 绿色
 #define YELLOW  "\033[33m"  // 黄色
 #define BLUE    "\033[34m"  // 蓝色
-#define PURPLE  "\033[35m]"
+#define PURPLE  "\033[35m"
 
 enum {
   TK_NOTYPE = 256, TK_EQ,
