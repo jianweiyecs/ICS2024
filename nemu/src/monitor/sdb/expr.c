@@ -335,7 +335,7 @@ word_t expr(char *e, bool *success) {
     for(i = 0;i < nr_token;i++){
       printToken(tokens[i]);
     }
-    printf(" = %d\n", res);
+    printf("= %d\n", res);
     return res;
   }else{
     printf("can't calculate\n");
