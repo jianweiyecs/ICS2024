@@ -16,3 +16,18 @@
 NAME = gen-expr
 SRCS = gen-expr.c
 include $(NEMU_HOME)/scripts/build.mk
+
+CFLAGS = -Wall -g
+
+CC = gcc
+
+all: $(NAME)
+
+$(NAME): $(SRCS)
+	$(CC) $(CFLAGS) -o $@ $^
+	./$(NAME) 10000 > input
+
+clean_expr:
+	@rm -f $(NAME) input
+	
+.PHONY: all clean_expr

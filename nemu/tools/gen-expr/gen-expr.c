@@ -32,12 +32,12 @@ static char *code_format =
 "}";
 
 static uint32_t choose(){
-  srand(time);
+  srand(time(NULL));
   return rand() % 2;
 }
 
 static void gen_num(){
-  srand(time);
+  srand(time(NULL));
   uint32_t res = rand() % UINT32_MAX;
   snprintf(buf + strlen(buf), sizeof(buf) - strlen(buf), "%u", res);
   if (res == 0 && buf[strlen(buf) - 2] == '/'){
@@ -50,24 +50,25 @@ static void gen(char c){
 }
 
 static void gen_rand_op(){
-  srand(time);
+  srand(time(NULL));
   uint32_t res = rand() % 4;
+  char c;
   switch (res)
   {
   case 0:
-    char c = '+';
+    c = '+';
     snprintf(buf + strlen(buf), sizeof(buf) - strlen(buf), "%c", c);
     break;
   case 1:
-    char c = '-';
+    c = '-';
     snprintf(buf + strlen(buf), sizeof(buf) - strlen(buf), "%c", c);
     break;
   case 2:
-    char c = '*';
+    c = '*';
     snprintf(buf + strlen(buf), sizeof(buf) - strlen(buf), "%c", c);
     break;
   case 3:
-    char c = '/';
+    c = '/';
     snprintf(buf + strlen(buf), sizeof(buf) - strlen(buf), "%c", c);
     break;
   default:
@@ -76,7 +77,6 @@ static void gen_rand_op(){
 } 
 
 static void gen_rand_expr() {
-  buf[0] = '\0';
   switch (choose()) {
     case 0: gen_num(); break;
     case 1: gen('('); gen_rand_expr(); gen(')'); break;
@@ -93,6 +93,7 @@ int main(int argc, char *argv[]) {
   }
   int i;
   for (i = 0; i < loop; i ++) {
+     buf[0] = '\0';
     gen_rand_expr();
 
     sprintf(code_buf, code_format, buf);
