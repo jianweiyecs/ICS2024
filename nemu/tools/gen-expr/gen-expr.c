@@ -39,12 +39,42 @@ static uint32_t choose(){
 static void gen_num(){
   srand(time);
   uint32_t res = rand() % UINT32_MAX;
-  snprintf(buf + strlen(buf), sizeof(buf) - strlen(buf), "%d", res);
+  snprintf(buf + strlen(buf), sizeof(buf) - strlen(buf), "%u", res);
+  if (res == 0 && buf[strlen(buf) - 2] == '/'){
+    buf[strlen(buf) - 1] = '1';
+  }
 }
 
 static void gen(char c){
   snprintf(buf + strlen(buf), sizeof(buf) - strlen(buf), "%c", c);
 }
+
+static void gen_rand_op(){
+  srand(time);
+  uint32_t res = rand() % 4;
+  switch (res)
+  {
+  case 0:
+    char c = '+';
+    snprintf(buf + strlen(buf), sizeof(buf) - strlen(buf), "%c", c);
+    break;
+  case 1:
+    char c = '-';
+    snprintf(buf + strlen(buf), sizeof(buf) - strlen(buf), "%c", c);
+    break;
+  case 2:
+    char c = '*';
+    snprintf(buf + strlen(buf), sizeof(buf) - strlen(buf), "%c", c);
+    break;
+  case 3:
+    char c = '/';
+    snprintf(buf + strlen(buf), sizeof(buf) - strlen(buf), "%c", c);
+    break;
+  default:
+    break;
+  }
+} 
+
 static void gen_rand_expr() {
   buf[0] = '\0';
   switch (choose()) {
