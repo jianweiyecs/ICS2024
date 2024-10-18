@@ -391,8 +391,7 @@ void printToken(Token token) {
 static void check_def(){
   int i;
   for(i = 0;i < nr_token; i++){
-    if (tokens[i].type == '*' && (i == 0 || (tokens[i - 1].type >= TK_EQ && tokens[i - 1].type <= TK_DIV)) ) {
-      printf("In\n");
+    if (tokens[i].type == TK_MUL && (i == 0 || (tokens[i - 1].type >= TK_EQ && tokens[i - 1].type <= TK_DIV)) ) {
       tokens[i].type = TK_DEF;
     }
     if (tokens[i].type == TK_REG){
