@@ -19,6 +19,7 @@
  * Type 'man regex' for more information about POSIX regex functions.
  */
 #include <regex.h>
+extern word_t expr(char *e, bool *success);
 
 #define RESET   "\033[0m"   // 重置颜色
 #define RED     "\033[31m"  // 红色
@@ -89,7 +90,7 @@ typedef struct token {
   char str[32];
 } Token;
 
-static Token tokens[32] __attribute__((used)) = {};
+static Token tokens[620] __attribute__((used)) = {};
 static int nr_token __attribute__((used))  = 0;
 
 static bool make_token(char *e) {

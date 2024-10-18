@@ -19,8 +19,9 @@
 #include <time.h>
 #include <assert.h>
 #include <string.h>
+#include <math.h>
 
-#define BUFMAX 60000
+#define BUFMAX 550
 // this should be enough
 static char buf[65536] = {};
 static char code_buf[65536 + 128] = {}; // a little larger than `buf`
@@ -32,36 +33,26 @@ static char *code_format =
 "  return 0; "
 "}";
 
-// static uint32_t index = 0;
+
 static uint32_t choose(int n){
   return rand() % n;
 }
 
 static void gen_num(){
-  if (strlen(buf) > BUFMAX){
-    return;
-  }
+
   char digit[32];
   digit[0] = '\0';
-  uint32_t res = rand() % 200;
-  if(res == 0 && buf[strlen(buf) - 1] == '/'){
-    res = 1;
-  }
+  uint32_t res = rand() % 10 + 1;
   sprintf(digit,"%u",res);
   strcpy(buf + strlen(buf),digit);
 }
 
 static void gen(char c){
-  if(c == '(' && strlen(buf) > BUFMAX){
-    return;
-  }
   sprintf(buf + strlen(buf), "%c", c);
 }
 
 static void gen_rand_op(){
-  if (strlen(buf) > BUFMAX){
-    return;
-  }
+
   uint32_t res = rand() % 4;
   char c;
   switch (res)
@@ -95,6 +86,15 @@ static void gen_rand_expr() {
   }
 }
 
+static int legal(int i){
+  if(buf[i] == '/' && (buf[i+1]==')' || buf[i+1] == '(')){
+    return 0;
+  }
+  if(buf[i + 1] == '/' && (buf[i]==')' || buf[i] == '(')){
+    return 0;
+  }
+  return 1;
+}
 int main(int argc, char *argv[]) {
   int seed = time(0);
   srand(seed);
@@ -105,9 +105,18 @@ int main(int argc, char *argv[]) {
   int i;
   for (i = 0; i < loop; i ++) {
     buf[0] = '\0';
+    code_buf[0] = '\0';
     gen_rand_expr();
     sprintf(code_buf, code_format, buf);
-
+    int j;
+    if(strlen(buf) > BUFMAX){
+      continue;
+    }
+    for(j = 0;j < strlen(buf) - 1; j++){
+      if(!legal(j)){
+        continue;
+      }
+    }
     FILE *fp = fopen("/tmp/.code.c", "w");
     assert(fp != NULL);
     fputs(code_buf, fp);
