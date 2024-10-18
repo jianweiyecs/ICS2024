@@ -360,6 +360,9 @@ void printToken(Token token) {
         case TK_NUM:
             printf(GREEN "%s " RESET, token.str); // 绿色
             break;
+        case TK_HEX:
+            printf(GREEN "%s " RESET, token.str); // 绿色
+            break;
         case TK_ADD:
             printf(PURPLE "+ " RESET); 
             break;
