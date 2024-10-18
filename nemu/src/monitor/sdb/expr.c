@@ -301,7 +301,7 @@ static int find_op(int l, int r){
 static u_int32_t eval(int l,int r){
   if(l > r){
     // printf("The expression is illegal, please re-enter it\n");
-    SUCCESS = 0;
+    // SUCCESS = 0;
     return 0;
   }else if(l == r){
     // printf("tokens[l].str is %s change is %u", tokens[l].str, (u_int32_t)strtol(tokens[l].str, NULL, 16));
