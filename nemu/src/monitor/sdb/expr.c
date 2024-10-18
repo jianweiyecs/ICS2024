@@ -297,6 +297,7 @@ static u_int32_t eval(int l,int r){
     SUCCESS = 0;
     return 0;
   }else if(l == r){
+    printf("tokens[l].str is %s change is %u", tokens[l].str, (u_int32_t)strtol(tokens[l].str, NULL, 10));
     return strtol(tokens[l].str, NULL, 10);
   }else if(check_parentheses(l, r)){
     return eval(l + 1, r - 1);
@@ -384,7 +385,7 @@ static void check_def(){
       u_int32_t res = isa_reg_str2val(tokens[i].str, &flag);
       if(flag){
         char s[32]={'\0'};
-        sprintf(s, "%d", res);
+        sprintf(s, "%u", res);
         tokens[i].str[0] = '\0';
         strcpy(tokens[i].str, s);
       }
