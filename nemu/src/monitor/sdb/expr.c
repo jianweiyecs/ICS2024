@@ -344,7 +344,7 @@ static u_int32_t eval(int l,int r){
       return val1 != val2;
     }
     case TK_DEF:{
-      return paddr_read(val2,4);
+      return paddr_read(val1,4);
     }
     default:
       break;
