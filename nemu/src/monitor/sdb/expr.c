@@ -427,4 +427,9 @@ word_t expr(char *e, bool *success) {
     printf("can't calculate\n");
     return 0;
   }
+  int i;
+  for(i = 0;i < nr_token;i++){
+    printToken(tokens[i]);
+  }
+
 }
