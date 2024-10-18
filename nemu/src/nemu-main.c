@@ -36,14 +36,17 @@ int main(int argc, char *argv[]) {
   assert(fp != NULL);
   char line[600];
   char exprs[560];
+  int error = 0;
   while (fgets(line, sizeof(line), fp) != NULL) {
       uint32_t res;
       sscanf(line, "%u %s" ,&res, exprs);
       bool expr_flag = true;
       uint32_t res2 = (uint32_t)expr(exprs, &expr_flag);
       if(res != res2){
+        error++;
         printf("res = %u res2 = %u expr = %s\n", res, res2, exprs);
       }
   }
+  printf("error: %d\n", error);
   return is_exit_status_bad();
 }
