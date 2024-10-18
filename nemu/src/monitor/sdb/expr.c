@@ -345,7 +345,7 @@ static u_int32_t eval(int l,int r){
     }
     case TK_DEF:{
       printf("in def val2 is %x\n", val2);
-      return paddr_read(val2,4);
+      return paddr_read((u_int32_t)val2, 4);
     }
     default:
       break;
