@@ -297,8 +297,8 @@ static u_int32_t eval(int l,int r){
     SUCCESS = 0;
     return 0;
   }else if(l == r){
-    printf("tokens[l].str is %s change is %u", tokens[l].str, (u_int32_t)strtol(tokens[l].str, NULL, 16));
-    return strtol(tokens[l].str, NULL, 10);
+    // printf("tokens[l].str is %s change is %u", tokens[l].str, (u_int32_t)strtol(tokens[l].str, NULL, 16));
+    return strtol(tokens[l].str, NULL, 16);
   }else if(check_parentheses(l, r)){
     return eval(l + 1, r - 1);
   }else{
