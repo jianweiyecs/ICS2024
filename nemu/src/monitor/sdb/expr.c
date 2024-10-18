@@ -344,7 +344,7 @@ static u_int32_t eval(int l,int r){
       return val1 != val2;
     }
     case TK_DEF:{
-      printf("in def val2 is %x\n", val2);
+      printf("in def val2 is %x val1 = %d\n", val2, val1);
       return paddr_read((u_int32_t)val2, 4);
     }
     default:
