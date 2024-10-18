@@ -392,6 +392,7 @@ static void check_def(){
   int i;
   for(i = 0;i < nr_token; i++){
     if (tokens[i].type == '*' && (i == 0 || (tokens[i - 1].type >= TK_EQ && tokens[i - 1].type <= TK_DIV)) ) {
+      printf("In\n");
       tokens[i].type = TK_DEF;
     }
     if (tokens[i].type == TK_REG){
@@ -412,7 +413,6 @@ word_t expr(char *e, bool *success) {
     return 0;
   }
   /* TODO: Insert codes to evaluate the expression. */
-  //TODO();
 
 
   SUCCESS = 1;
@@ -429,10 +429,6 @@ word_t expr(char *e, bool *success) {
   }else{
     printf("can't calculate\n");
     return 0;
-  }
-  int i;
-  for(i = 0;i < nr_token;i++){
-    printToken(tokens[i]);
   }
 
 }
