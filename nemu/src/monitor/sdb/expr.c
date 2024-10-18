@@ -19,7 +19,6 @@
  * Type 'man regex' for more information about POSIX regex functions.
  */
 #include <regex.h>
-extern word_t expr(char *e, bool *success);
 
 #define RESET   "\033[0m"   // 重置颜色
 #define RED     "\033[31m"  // 红色
