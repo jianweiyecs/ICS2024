@@ -257,29 +257,36 @@ static int find_op(int l, int r){
     switch (tokens[i].type)
     {
     case TK_ADD:{
-      if (op_type <= 1 && !check_in_parentheses(i,l,r)){
-        op_type = 1;
+      if (op_type <= 2 && !check_in_parentheses(i,l,r)){
+        op_type = 2;
         op = i;
       }
       break;
     }
     case TK_SUB:{
+      if (op_type <= 2 && !check_in_parentheses(i,l,r)){
+        op_type = 2;
+        op = i;
+      }
+      break;
+    }
+    case TK_DEF:{
+      if (op_type <= 0 && !check_in_parentheses(i,l,r)){
+        op_type = 0;
+        op = i;
+      }
+      break;
+    }
+    case TK_MUL:{
       if (op_type <= 1 && !check_in_parentheses(i,l,r)){
         op_type = 1;
         op = i;
       }
       break;
     }
-    case TK_MUL:{
-      if (op_type <= 0 && !check_in_parentheses(i,l,r)){
-        op_type = 0;
-        op = i;
-      }
-      break;
-    }
     case TK_DIV:{
-      if (op_type <= 0 && !check_in_parentheses(i,l,r)){
-        op_type = 0;
+      if (op_type <= 1 && !check_in_parentheses(i,l,r)){
+        op_type = 1;
         op = i;
       }
       break;
@@ -337,7 +344,7 @@ static u_int32_t eval(int l,int r){
       return val1 != val2;
     }
     case TK_DEF:{
-      return paddr_read(val1,4);
+      return paddr_read(val2,4);
     }
     default:
       break;
@@ -377,7 +384,7 @@ void printToken(Token token) {
 static void check_def(){
   int i;
   for(i = 0;i < nr_token; i++){
-    if (tokens[i].type == '*' && (i == 0 || (tokens[i - 1].type >= TK_EQ && tokens[i - 1].type >= TK_DIV)) ) {
+    if (tokens[i].type == '*' && (i == 0 || (tokens[i - 1].type >= TK_EQ && tokens[i - 1].type <= TK_DIV)) ) {
       tokens[i].type = TK_DEF;
     }
     if (tokens[i].type == TK_REG){
