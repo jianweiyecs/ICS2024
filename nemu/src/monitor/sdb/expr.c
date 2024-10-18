@@ -28,18 +28,26 @@
 #define PURPLE  "\033[35m"  
 #define QINGSE  "\033[36m"
 #define LIGHT_MAG "\033[95m"
-
+word_t paddr_read(paddr_t addr, int len);
 enum {
-  TK_NOTYPE = 256, TK_EQ,
+  TK_NOTYPE = 256,
 
   /* TODO: Add more token types */
   TK_NUM,
+  TK_HEX,
+  TK_REG,
+  TK_YOU,
+
+  TK_EQ,
+  TK_ZUO,
+  TK_NEQ,
+  TK_AND,
   TK_ADD,
   TK_SUB,
   TK_MUL,
   TK_DIV,
-  TK_ZUO,
-  TK_YOU,
+
+  TK_DEF,
 };
 
 static struct rule {
@@ -50,17 +58,20 @@ static struct rule {
   /* TODO: Add more rules.
    * Pay attention to the precedence level of different rules.
    */
+  {"0x[0-9A-Fa-f]+", TK_HEX},
+  {"\\$[0-9a-zA-Z]+", TK_REG},
   {"-?[0-9]+", TK_NUM},
   {" +", TK_NOTYPE},    // spaces
-  {"\\+", TK_ADD},         // plus
+  {"\\)", TK_YOU},
 
-  
+  {"==", TK_EQ},
+  {"!=", TK_NEQ},
+  {"&&", TK_AND},
+  {"\\+", TK_ADD},         // plus
   {"\\-", TK_SUB}, //sub
   {"\\*", TK_MUL}, //mul
   {"\\/", TK_DIV}, //div
   {"\\(", TK_ZUO},
-  {"\\)", TK_YOU},
-  // {"[0-9]*", TK_NUM},
 };
 
 #define NR_REGEX ARRLEN(rules)
@@ -149,6 +160,37 @@ static bool make_token(char *e) {
               assert(0);
             }
             strncpy(tokens[nr_token].str, substr_start, substr_len);
+            nr_token++;
+            break;
+          }
+          case TK_HEX:{
+            tokens[nr_token].type = TK_NUM;
+            if(substr_len >= 32){
+              printf("buffer overflow in INT, buffer is 32bit, shoulde give 31bit, last bit is \\0\n");
+              assert(0);
+            }
+            strncpy(tokens[nr_token].str, substr_start, substr_len);
+            nr_token++;
+            break;
+          }
+          case TK_REG:{
+            tokens[nr_token].type = TK_REG;
+            strncpy(tokens[nr_token].str, substr_start, substr_len);
+            nr_token++;
+            break;
+          }
+          case TK_EQ:{
+            tokens[nr_token].type = TK_EQ;
+            nr_token++;
+            break;
+          }
+          case TK_NEQ:{
+            tokens[nr_token].type = TK_NEQ;
+            nr_token++;
+            break;
+          }
+          case TK_AND:{
+            tokens[nr_token].type = TK_AND;
             nr_token++;
             break;
           }
@@ -249,13 +291,13 @@ static int find_op(int l, int r){
   return op;
 }
 
-static int eval(int l,int r){
+static u_int32_t eval(int l,int r){
   if(l > r){
     // printf("The expression is illegal, please re-enter it\n");
     SUCCESS = 0;
     return 0;
   }else if(l == r){
-    return atoi(tokens[l].str);
+    return strtol(tokens[l].str, NULL, 10);
   }else if(check_parentheses(l, r)){
     return eval(l + 1, r - 1);
   }else{
@@ -283,6 +325,18 @@ static int eval(int l,int r){
       }else{
         return val1 / val2;
       }
+    }
+    case TK_AND:{
+      return val1 && val2;
+    }
+    case TK_EQ:{
+      return val1 == val2;
+    }
+    case TK_NEQ:{
+      return val1 != val2;
+    }
+    case TK_DEF:{
+      return paddr_read(val2,4);
     }
     default:
       break;
@@ -318,6 +372,25 @@ void printToken(Token token) {
     }
 }
 
+
+static void check_def(){
+  int i;
+  for(i = 0;i < nr_token; i++){
+    if (tokens[i].type == '*' && (i == 0 || (tokens[i - 1].type >= TK_EQ && tokens[i - 1].type >= TK_DIV)) ) {
+      tokens[i].type = TK_DEF;
+    }
+    if (tokens[i].type == TK_REG){
+      bool flag = true;
+      u_int32_t res = isa_reg_str2val(tokens[i].str, &flag);
+      if(flag){
+        char s[32]={'\0'};
+        sprintf(s, "%d", res);
+        tokens[i].str[0] = '\0';
+        strcpy(tokens[i].str, s);
+      }
+    }
+  }
+}
 word_t expr(char *e, bool *success) {
   if (!make_token(e)) {
     *success = false;
@@ -329,13 +402,14 @@ word_t expr(char *e, bool *success) {
 
   SUCCESS = 1;
   // printf("nr_token is %d\n",nr_token);
-  int res = eval(0,nr_token - 1);
+  check_def();
+  u_int32_t res = eval(0,nr_token - 1);
   if(SUCCESS){
     int i;
     for(i = 0;i < nr_token;i++){
       printToken(tokens[i]);
     }
-    printf("= %d\n", res);
+    printf("= %u\n", res);
     return res;
   }else{
     printf("can't calculate\n");
