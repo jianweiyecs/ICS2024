@@ -215,3 +215,9 @@ config RT_CHECK
   default y
 
 endmenu
+
+menu "Diy PA"
+config CONFIG_WATCHPOINT
+  bool "Enable watchpoint"
+  default n
+endmenu
