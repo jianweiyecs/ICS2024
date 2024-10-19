@@ -405,6 +405,15 @@ void printToken(Token token) {
         case TK_DEF:
             printf(LIGHT_MAG "*" RESET);
             break;
+        case TK_EQ:
+            printf(QINGSE "== " RESET); 
+            break;
+        case TK_NEQ:
+            printf(QINGSE "!= " RESET); 
+            break;
+        case TK_AND:
+            printf(LIGHT_MAG "&& " RESET);
+            break;
     }
 }
 
