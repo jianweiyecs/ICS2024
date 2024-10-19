@@ -42,7 +42,6 @@ void init_wp_pool() {
   }
 
   head = NULL;
-  head->next = NULL;
   free_ = wp_pool;
 }
 
