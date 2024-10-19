@@ -58,6 +58,7 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
     if(new_res != p->res){
       nemu_state.state = NEMU_STOP;
       printf("num %d wp: last res: %x, new res: %x\n",p->NO, p->res, new_res);
+      p->res = new_res;
       sdb_mainloop();
     }
     p=p->next;
