@@ -136,6 +136,7 @@ static int cmd_w(char* args){
   if(flag){
     p->res = res;
   }
+  printf("Pass cmd_x\n");
   return 0;
 }
 
