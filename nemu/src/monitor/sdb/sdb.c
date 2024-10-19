@@ -145,7 +145,7 @@ static int cmd_d(char *args){
   
   WP* p = get_head();
   bool delete = false;
-  while (!p)
+  while (p)
   {
     if(p->NO == num){
       delete = true;
