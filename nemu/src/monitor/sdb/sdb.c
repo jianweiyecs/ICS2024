@@ -27,6 +27,18 @@ static int is_batch_mode = false;
 void init_regex();
 void init_wp_pool();
 
+typedef struct watchpoint {
+  int NO;
+  struct watchpoint *next;
+
+  /* TODO: Add more members if necessary */
+  int busy;
+  char expr[100];
+  uint32_t res;
+} WP;
+WP* get_head();
+WP* new_wp();
+void free_wp(WP* wp);
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 static char* rl_gets() {
   static char *line_read = NULL;
@@ -75,6 +87,15 @@ static int cmd_info(char* args){
   }else{
     printf("Unknow command\n");
   }
+
+  if(c == 'w' || c == 'W'){
+    WP* p = get_head();
+    printf("WP Info :\n");
+    while(p){
+      printf("Num%d, expr:%s\n", p->NO, p->expr);
+      p=p->next;
+    }
+  }
   return 0;
 }
 
@@ -102,6 +123,41 @@ static int cmd_x(char* args){
   }
   return 0;
 }
+
+static int cmd_w(char* args){
+  char exprs[100];
+  strcpy(exprs, args);
+
+  WP* p = new_wp();
+  strcpy(p->expr,exprs);
+
+  bool flag = true;
+  uint32_t res = expr(exprs, &flag);
+  if(flag){
+    p->res = res;
+  }
+  return 0;
+}
+
+static int cmd_d(char *args){
+  int num;
+  sscanf(args,"%d", &num);
+  
+  WP* p = get_head();
+  bool delete = false;
+  while (!p)
+  {
+    if(p->NO == num){
+      delete = true;
+      free_wp(p);
+      break;
+    }
+  }
+  if(!delete){
+    printf("wp num:%d not in busy_list\n", num);
+  }
+  return 0;
+}
 static int cmd_help(char *args);
 
 static struct {
@@ -118,6 +174,8 @@ static struct {
   { "info", "Print register values",cmd_info},
   { "p", "Expression evaluation",cmd_p},
   { "x","Scan Memory",cmd_x},
+  { "w", "When the value of expression EXPR changes, the program execution is paused.", cmd_w},
+  { "d", "delete wp", cmd_d},
 };
 
 #define NR_CMD ARRLEN(cmd_table)
