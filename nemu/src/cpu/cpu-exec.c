@@ -25,6 +25,18 @@
  */
 #define MAX_INST_TO_PRINT 10
 
+typedef struct watchpoint {
+  int NO;
+  struct watchpoint *next;
+
+  /* TODO: Add more members if necessary */
+  int busy;
+  char expr[100];
+  uint32_t res;
+} WP;
+WP* get_head();
+
+
 CPU_state cpu = {};
 uint64_t g_nr_guest_inst = 0;
 static uint64_t g_timer = 0; // unit: us
@@ -38,6 +50,20 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 #endif
   if (g_print_step) { IFDEF(CONFIG_ITRACE, puts(_this->logbuf)); }
   IFDEF(CONFIG_DIFFTEST, difftest_step(_this->pc, dnpc));
+#ifdef CONFIG_WATCHPOINT
+  WP* p =get_head();
+  while(p){
+    bool flag = true;
+    uint32_t new_res = expr(p->expr, &flag);
+    if(new_res != p->res){
+      nemu_state.state = NEMU_STOP;
+      printf("num %d wp: last res: %x, new res: %x\n",p->NO, p->res, new_res);
+      p->res = new_res;
+      sdb_mainloop();
+    }
+    p=p->next;
+  }
+#endif
 }
 
 static void exec_once(Decode *s, vaddr_t pc) {

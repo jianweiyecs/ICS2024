@@ -19,11 +19,26 @@
 #include <readline/history.h>
 #include "sdb.h"
 
+#include <memory/paddr.h>
+NEMUState nemu_state;
+
 static int is_batch_mode = false;
 
 void init_regex();
 void init_wp_pool();
 
+typedef struct watchpoint {
+  int NO;
+  struct watchpoint *next;
+
+  /* TODO: Add more members if necessary */
+  int busy;
+  char expr[100];
+  uint32_t res;
+} WP;
+WP* get_head();
+WP* new_wp();
+void free_wp(WP* wp);
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 static char* rl_gets() {
   static char *line_read = NULL;
@@ -47,11 +62,102 @@ static int cmd_c(char *args) {
   return 0;
 }
 
-
+/*PA1的小练习，发现当没有执行c而是直接q退出时，会有error，由于没有执行指令，NEMU的state没有改变，依旧会是NEMU_Stop，因此想到在这里（当执行q时候，一定必须将NEMU的state设置为END*/
 static int cmd_q(char *args) {
+  nemu_state.state = NEMU_END;
   return -1;
 }
 
+static int cmd_si(char* args){
+  int n;
+  sscanf(args,"%d",&n);
+  int insructions = n > 1 ? n : 1;
+  int i;
+  for(i = 1;i<=insructions;i++){
+    cpu_exec(1);
+  }
+  return 0;
+}
+
+static int cmd_info(char* args){
+  char c;
+  sscanf(args,"%c",&c);
+  if(c == 'r' || c == 'R'){
+    isa_reg_display();
+  }else{
+    printf("Unknow command\n");
+  }
+
+  if(c == 'w' || c == 'W'){
+    WP* p = get_head();
+    printf("WP Info :\n");
+    while(p){
+      printf("Num%d, expr:%s\n", p->NO, p->expr);
+      p=p->next;
+    }
+  }
+  return 0;
+}
+
+static int cmd_p(char* args){
+  char e[100];
+  // sscanf(args,"%s",e);
+  strcpy(e,args);
+  bool success = true;
+  int res = expr(e, &success);
+  if(success){
+    return res;
+  }else{
+    return 0;
+  }
+}
+
+static int cmd_x(char* args){
+  uint32_t address;
+  int n;
+  sscanf(args,"%d %x",&n,&address);
+  int i;
+  for(i = 0;i < n;i++){
+    printf("address: %x  memory: %08x\n",address,paddr_read(address,4));
+    address = address + 4;
+  }
+  return 0;
+}
+
+static int cmd_w(char* args){
+  char exprs[100];
+  strcpy(exprs, args);
+
+  WP* p = new_wp();
+  strcpy(p->expr,exprs);
+
+  bool flag = true;
+  uint32_t res = expr(exprs, &flag);
+  if(flag){
+    p->res = res;
+  }
+  return 0;
+}
+
+static int cmd_d(char *args){
+  int num;
+  sscanf(args,"%d", &num);
+  
+  WP* p = get_head();
+  bool delete = false;
+  while (p)
+  {
+    if(p->NO == num){
+      delete = true;
+      free_wp(p);
+      break;
+    }
+  }
+  if(!delete){
+    printf("wp num:%d not in busy_list\n", num);
+  }
+  return 0;
+}
 static int cmd_help(char *args);
 
 static struct {
@@ -64,7 +170,12 @@ static struct {
   { "q", "Exit NEMU", cmd_q },
 
   /* TODO: Add more commands */
-
+  { "si", "Execute n instructions",cmd_si},
+  { "info", "Print register values",cmd_info},
+  { "p", "Expression evaluation",cmd_p},
+  { "x","Scan Memory",cmd_x},
+  { "w", "When the value of expression EXPR changes, the program execution is paused.", cmd_w},
+  { "d", "delete wp", cmd_d},
 };
 
 #define NR_CMD ARRLEN(cmd_table)
