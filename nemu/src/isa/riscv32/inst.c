@@ -40,7 +40,7 @@ enum {
 BITS(i, 30, 21) | \
 (BITS(i, 20, 20) << 10) | \
 (BITS(i, 19, 12) << 11) \
-) << 1, 21); } while(0)
+) << 1, 21);Log(ANSI_FG_CYAN "%#x\n" ANSI_NONE, *imm); } while(0)
 
 static void decode_operand(Decode *s, int *rd, word_t *src1, word_t *src2, word_t *imm, int type) {
   uint32_t i = s->isa.inst.val;
